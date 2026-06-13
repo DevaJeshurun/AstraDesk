@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AstraDesk — Desktop Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- ── DRAG HANDLE / TOP BAR ── -->
+<div id="topbar" class="drag-region">
+  <div id="top-logo">
+    <span class="logo-hex">⬡</span>
+    <span class="logo-name">ASTRA<span class="accent">DESK</span></span>
+  </div>
+  <div id="top-clock">
+    <div id="clock-time"></div>
+    <div id="clock-date"></div>
+  </div>
+  <div id="top-actions" class="no-drag">
+    <span id="status-dot" class="sdot"></span>
+    <span id="breaking-badge" class="breaking-badge" title="Breaking news"></span>
+    <button id="btn-pin" class="tbtn" title="Pin on top">📌</button>
+    <button id="btn-minimize" class="tbtn" title="Minimize">—</button>
+    <button id="btn-close" class="tbtn close" title="Close">✕</button>
+  </div>
+</div>
+
+<!-- ── NAV TABS ── -->
+<div id="nav-tabs" class="no-drag">
+  <button class="tab active" data-panel="dashboard">Hub</button>
+  <button class="tab" data-panel="tech">Tech</button>
+  <button class="tab" data-panel="gaming">Games</button>
+  <button class="tab" data-panel="world">World</button>
+  <button class="tab" data-panel="india">India</button>
+  <button class="tab" data-panel="tamilnadu">TN</button>
+  <button class="tab" data-panel="science">Space</button>
+  <button class="tab" data-panel="cyber">Cyber</button>
+  <button class="tab" data-panel="ai">AI</button>
+  <button class="tab" data-panel="finance">Finance</button>
+  <button class="tab" data-panel="dev">Dev</button>
+  <button class="tab" data-panel="sysmon">Sys</button>
+  <button class="tab" data-panel="cfg">⚙</button>
+</div>
+
+<!-- ── SCROLL AREA ── -->
+<div id="scroll-area" class="no-drag">
+
+  <!-- DASHBOARD -->
+  <section id="panel-dashboard" class="panel active">
+    <!-- Clock hero -->
+    <div id="hero-clock">
+      <div id="hero-time"></div>
+      <div id="hero-date"></div>
+    </div>
+
+    <!-- System mini strip -->
+    <div id="sys-strip">
+      <div class="sys-chip">
+        <span class="sys-label">CPU</span>
+        <div class="bar-wrap"><div class="bar" id="strip-cpu-bar"></div></div>
+        <span class="sys-val" id="strip-cpu-val">–%</span>
+      </div>
+      <div class="sys-chip">
+        <span class="sys-label">RAM</span>
+        <div class="bar-wrap"><div class="bar bar-ram" id="strip-ram-bar"></div></div>
+        <span class="sys-val" id="strip-ram-val">–%</span>
+      </div>
+      <div class="sys-chip net-chip">
+        <span class="sys-label">↑</span><span class="sys-val" id="strip-net-up">–</span>
+        <span class="sys-label">↓</span><span class="sys-val" id="strip-net-dn">–</span>
+      </div>
+    </div>
+
+    <!-- Breaking News Banner -->
+    <div id="breaking-banner" class="breaking-banner" style="display:none">
+      <span class="breaking-label">⚡ BREAKING</span>
+      <span id="breaking-text"></span>
+    </div>
+
+    <!-- Section: Top World -->
+    <div class="sec-header">
+      <span class="sec-icon">🌍</span> World
+      <span class="sec-count" id="count-world">–</span>
+    </div>
+    <ul class="feed-list" id="dash-world"></ul>
+
+    <!-- Section: India -->
+    <div class="sec-header">
+      <span class="sec-icon">🇮🇳</span> India
+      <span class="sec-count" id="count-india">–</span>
+    </div>
+    <ul class="feed-list" id="dash-india"></ul>
+
+    <!-- Section: Top Tech -->
+    <div class="sec-header">
+      <span class="sec-icon">💻</span> Tech
+      <span class="sec-count" id="count-tech">–</span>
+    </div>
+    <ul class="feed-list" id="dash-tech"></ul>
+
+    <!-- Section: Gaming -->
+    <div class="sec-header">
+      <span class="sec-icon">🎮</span> Gaming
+      <span class="sec-count" id="count-gaming">–</span>
+    </div>
+    <ul class="feed-list" id="dash-gaming"></ul>
+
+    <!-- Section: Cyber -->
+    <div class="sec-header sec-cyber">
+      <span class="sec-icon">🛡</span> Cyber Alerts
+      <span class="sec-count" id="count-cyber">–</span>
+    </div>
+    <ul class="feed-list" id="dash-cyber"></ul>
+
+    <!-- Section: Space -->
+    <div class="sec-header">
+      <span class="sec-icon">🚀</span> Space
+      <span class="sec-count" id="count-space">–</span>
+    </div>
+    <ul class="feed-list" id="dash-space"></ul>
+  </section>
+
+  <!-- TECH -->
+  <section id="panel-tech" class="panel">
+    <div class="panel-title-bar">💻 Technology
+      <button class="refresh-btn" id="ref-tech">↻</button>
+    </div>
+    <div class="source-chips" id="filter-tech">
+      <button class="chip active" data-src="all">All</button>
+      <button class="chip" data-src="tc">TechCrunch</button>
+      <button class="chip" data-src="verge">Verge</button>
+      <button class="chip" data-src="wired">Wired</button>
+      <button class="chip" data-src="ars">Ars Technica</button>
+      <button class="chip" data-src="engadget">Engadget</button>
+      <button class="chip" data-src="zdnet">ZDNet</button>
+      <button class="chip" data-src="cnet">CNET</button>
+      <button class="chip" data-src="mit">MIT Tech</button>
+      <button class="chip" data-src="wc">Win Central</button>
+    </div>
+    <div class="article-list" id="list-tech"></div>
+  </section>
+
+  <!-- GAMING -->
+  <section id="panel-gaming" class="panel">
+    <div class="panel-title-bar">🎮 Gaming
+      <button class="refresh-btn" id="ref-gaming">↻</button>
+    </div>
+    <div class="source-chips" id="filter-gaming">
+      <button class="chip active" data-src="all">All</button>
+      <button class="chip" data-src="ign">IGN</button>
+      <button class="chip" data-src="kotaku">Kotaku</button>
+      <button class="chip" data-src="eurogamer">Eurogamer</button>
+      <button class="chip" data-src="gamespot">GameSpot</button>
+      <button class="chip" data-src="pcgamer">PC Gamer</button>
+      <button class="chip" data-src="rockstar">Rockstar</button>
+    </div>
+    <div class="article-list" id="list-gaming"></div>
+  </section>
+
+  <!-- WORLD -->
+  <section id="panel-world" class="panel">
+    <div class="panel-title-bar">🌍 World News
+      <button class="refresh-btn" id="ref-world">↻</button>
+    </div>
+    <div class="source-chips" id="filter-world">
+      <button class="chip active" data-src="all">All</button>
+      <button class="chip" data-src="bbc">BBC</button>
+      <button class="chip" data-src="reuters">Reuters</button>
+      <button class="chip" data-src="ap">AP</button>
+      <button class="chip" data-src="aljazeera">Al Jazeera</button>
+      <button class="chip" data-src="guardian">Guardian</button>
+      <button class="chip" data-src="bloomberg">Bloomberg</button>
+      <button class="chip" data-src="cnbc">CNBC</button>
+    </div>
+    <div class="article-list" id="list-world"></div>
+  </section>
+
+  <!-- INDIA -->
+  <section id="panel-india" class="panel">
+    <div class="panel-title-bar">🇮🇳 India News
+      <button class="refresh-btn" id="ref-india">↻</button>
+    </div>
+    <div class="source-chips" id="filter-india">
+      <button class="chip active" data-src="all">All</button>
+      <button class="chip" data-src="hindu">The Hindu</button>
+      <button class="chip" data-src="ie">Indian Express</button>
+      <button class="chip" data-src="ndtv">NDTV</button>
+      <button class="chip" data-src="toi">Times of India</button>
+      <button class="chip" data-src="ht">Hindustan Times</button>
+      <button class="chip" data-src="mc">Moneycontrol</button>
+    </div>
+    <div class="article-list" id="list-india"></div>
+  </section>
+
+  <!-- TAMIL NADU -->
+  <section id="panel-tamilnadu" class="panel">
+    <div class="panel-title-bar tn-title">
+      <span class="tn-flag">🏛</span> Tamil Nadu
+      <span class="tn-badge">LIVE</span>
+      <button class="refresh-btn" id="ref-tn">↻</button>
+    </div>
+    <div class="tn-subtitle">Chennai · Tamil Nadu · Regional Intelligence</div>
+    <div class="source-chips" id="filter-tn">
+      <button class="chip active" data-src="all">All</button>
+      <button class="chip" data-src="hindu-tn">The Hindu</button>
+      <button class="chip" data-src="toi-chen">TOI Chennai</button>
+      <button class="chip" data-src="ie-tn">IE Tamil Nadu</button>
+      <button class="chip" data-src="dtnext">DT Next</button>
+      <button class="chip" data-src="news18tn">News18 TN</button>
+    </div>
+    <div class="article-list tn-list" id="list-tn"></div>
+  </section>
+
+  <!-- SCIENCE / SPACE -->
+  <section id="panel-science" class="panel">
+    <div class="panel-title-bar">🚀 Space &amp; Science
+      <button class="refresh-btn" id="ref-science">↻</button>
+    </div>
+    <div class="source-chips" id="filter-science">
+      <button class="chip active" data-src="all">All</button>
+      <button class="chip" data-src="nasa">NASA</button>
+      <button class="chip" data-src="esa">ESA</button>
+      <button class="chip" data-src="space">Space.com</button>
+      <button class="chip" data-src="sciam">Sci American</button>
+      <button class="chip" data-src="newscientist">New Scientist</button>
+    </div>
+    <div class="article-list" id="list-science"></div>
+  </section>
+
+  <!-- CYBER -->
+  <section id="panel-cyber" class="panel">
+    <div class="panel-title-bar cyber-title">🛡 Cybersecurity
+      <button class="refresh-btn" id="ref-cyber">↻</button>
+    </div>
+    <div class="source-chips" id="filter-cyber">
+      <button class="chip active" data-src="all">All</button>
+      <button class="chip" data-src="krebs">Krebs</button>
+      <button class="chip" data-src="bleeping">BleepingComputer</button>
+      <button class="chip" data-src="thn">Hacker News</button>
+      <button class="chip" data-src="cybernews">CyberNews</button>
+    </div>
+    <div class="article-list cyber-list" id="list-cyber"></div>
+  </section>
+
+  <!-- AI -->
+  <section id="panel-ai" class="panel">
+    <div class="panel-title-bar ai-title">🤖 AI &amp; Machine Learning
+      <button class="refresh-btn" id="ref-ai">↻</button>
+    </div>
+    <div class="source-chips" id="filter-ai">
+      <button class="chip active" data-src="all">All</button>
+      <button class="chip" data-src="deepmind">DeepMind</button>
+      <button class="chip" data-src="openai">OpenAI</button>
+      <button class="chip" data-src="mit-ai">MIT Tech</button>
+      <button class="chip" data-src="verge-ai">The Verge AI</button>
+      <button class="chip" data-src="hn-ai">HN AI</button>
+    </div>
+    <div class="article-list ai-list" id="list-ai"></div>
+  </section>
+
+  <!-- FINANCE -->
+  <section id="panel-finance" class="panel">
+    <div class="panel-title-bar finance-title">📈 Finance &amp; Markets
+      <button class="refresh-btn" id="ref-finance">↻</button>
+    </div>
+    <div class="source-chips" id="filter-finance">
+      <button class="chip active" data-src="all">All</button>
+      <button class="chip" data-src="bloomberg-f">Bloomberg</button>
+      <button class="chip" data-src="cnbc-f">CNBC</button>
+      <button class="chip" data-src="mc-f">Moneycontrol</button>
+      <button class="chip" data-src="ec">The Economist</button>
+    </div>
+    <!-- Market tickers strip -->
+    <div id="market-strip">
+      <div class="market-tile" id="mt-sensex">
+        <div class="mt-label">SENSEX</div>
+        <div class="mt-val" id="mv-sensex">–</div>
+      </div>
+      <div class="market-tile" id="mt-nifty">
+        <div class="mt-label">NIFTY</div>
+        <div class="mt-val" id="mv-nifty">–</div>
+      </div>
+      <div class="market-tile" id="mt-btc">
+        <div class="mt-label">BTC</div>
+        <div class="mt-val" id="mv-btc">–</div>
+      </div>
+      <div class="market-tile" id="mt-gold">
+        <div class="mt-label">GOLD</div>
+        <div class="mt-val" id="mv-gold">–</div>
+      </div>
+    </div>
+    <div class="article-list finance-list" id="list-finance"></div>
+  </section>
+
+  <!-- DEV -->
+  <section id="panel-dev" class="panel">
+    <div class="panel-title-bar">⟨/⟩ Developer
+      <button class="refresh-btn" id="ref-github">↻</button>
+    </div>
+    <div class="sub-label">⭐ GitHub Trending</div>
+    <div id="list-github"></div>
+    <div class="sub-label" style="margin-top:14px">🔥 Hacker News</div>
+    <ul class="feed-list" id="list-hn"></ul>
+    <div class="sub-label" style="margin-top:14px">📚 Stack Overflow</div>
+    <ul class="feed-list" id="list-so"></ul>
+  </section>
+
+  <!-- SYSMON -->
+  <section id="panel-sysmon" class="panel">
+    <div class="panel-title-bar">📊 System Intelligence</div>
+
+    <!-- Rings Row -->
+    <div class="rings-row">
+      <div class="ring-block">
+        <div class="ring-wrap">
+          <svg viewBox="0 0 80 80">
+            <circle class="rc-bg" cx="40" cy="40" r="32"/>
+            <circle class="rc-fill" id="ring-cpu" cx="40" cy="40" r="32" stroke-dasharray="0 201"/>
+          </svg>
+          <span class="ring-label" id="ring-cpu-val">–%</span>
+        </div>
+        <div class="ring-name">CPU</div>
+      </div>
+      <div class="ring-block">
+        <div class="ring-wrap">
+          <svg viewBox="0 0 80 80">
+            <circle class="rc-bg" cx="40" cy="40" r="32"/>
+            <circle class="rc-fill rc-ram" id="ring-ram" cx="40" cy="40" r="32" stroke-dasharray="0 201"/>
+          </svg>
+          <span class="ring-label" id="ring-ram-val">–%</span>
+        </div>
+        <div class="ring-name">RAM</div>
+      </div>
+      <div class="ring-block">
+        <div class="ring-wrap">
+          <svg viewBox="0 0 80 80">
+            <circle class="rc-bg" cx="40" cy="40" r="32"/>
+            <circle class="rc-fill rc-gpu" id="ring-gpu" cx="40" cy="40" r="32" stroke-dasharray="0 201"/>
+          </svg>
+          <span class="ring-label" id="ring-gpu-val">–%</span>
+        </div>
+        <div class="ring-name">GPU</div>
+      </div>
+      <div class="ring-block">
+        <div class="ring-wrap">
+          <svg viewBox="0 0 80 80">
+            <circle class="rc-bg" cx="40" cy="40" r="32"/>
+            <circle class="rc-fill rc-disk" id="ring-disk" cx="40" cy="40" r="32" stroke-dasharray="0 201"/>
+          </svg>
+          <span class="ring-label" id="ring-disk-val">–%</span>
+        </div>
+        <div class="ring-name">DISK</div>
+      </div>
+    </div>
+
+    <!-- Temperature / Health row -->
+    <div class="sys-detail-row">
+      <div class="sys-detail-tile">
+        <div class="sdt-label">🌡 CPU Temp</div>
+        <div class="sdt-val" id="sys-cpu-temp">– °C</div>
+      </div>
+      <div class="sys-detail-tile">
+        <div class="sdt-label">🌡 GPU Temp</div>
+        <div class="sdt-val" id="sys-gpu-temp">– °C</div>
+      </div>
+      <div class="sys-detail-tile">
+        <div class="sdt-label">🌀 Fan</div>
+        <div class="sdt-val" id="sys-fan">– RPM</div>
+      </div>
+      <div class="sys-detail-tile">
+        <div class="sdt-label">🔋 Battery</div>
+        <div class="sdt-val" id="sys-battery">–%</div>
+      </div>
+    </div>
+
+    <!-- Network -->
+    <div class="net-row">
+      <div class="net-tile">
+        <div class="net-tile-label">↑ Upload</div>
+        <div class="net-tile-val" id="sys-net-up">–</div>
+      </div>
+      <div class="net-tile">
+        <div class="net-tile-label">↓ Download</div>
+        <div class="net-tile-val" id="sys-net-dn">–</div>
+      </div>
+      <div class="net-tile">
+        <div class="net-tile-label">⏱ Latency</div>
+        <div class="net-tile-val" id="sys-latency">– ms</div>
+      </div>
+    </div>
+    <canvas id="net-canvas" height="70"></canvas>
+
+    <!-- Alert Banner -->
+    <div id="sys-alert-banner" class="sys-alert-banner" style="display:none"></div>
+
+    <!-- OS Table -->
+    <div class="os-table" id="os-table">
+      <div class="os-row"><span>Platform</span><span id="os-plat">–</span></div>
+      <div class="os-row"><span>Screen</span><span id="os-scr">–</span></div>
+      <div class="os-row"><span>Language</span><span id="os-lang">–</span></div>
+      <div class="os-row"><span>Cores</span><span id="os-cores">–</span></div>
+      <div class="os-row"><span>Memory</span><span id="os-mem">–</span></div>
+    </div>
+  </section>
+
+  <!-- CONFIG -->
+  <section id="panel-cfg" class="panel">
+    <div class="panel-title-bar">⚙ Configuration</div>
+
+    <div class="cfg-block">
+      <div class="cfg-label">Theme</div>
+      <div class="theme-row">
+        <button class="theme-pill active" data-theme="astra">Astra</button>
+        <button class="theme-pill" data-theme="cyber">Cyber</button>
+        <button class="theme-pill" data-theme="solar">Solar</button>
+        <button class="theme-pill" data-theme="nova">Nova</button>
+        <button class="theme-pill" data-theme="midnight">Midnight</button>
+      </div>
+    </div>
+
+    <div class="cfg-block">
+      <div class="cfg-label">Opacity</div>
+      <input type="range" id="cfg-opacity" min="60" max="100" value="92" class="slider" />
+      <span id="opacity-val">92%</span>
+    </div>
+
+    <div class="cfg-block">
+      <div class="cfg-label">Widget Width</div>
+      <input type="range" id="cfg-width" min="320" max="600" value="440" step="10" class="slider" />
+      <span id="width-val">440px</span>
+    </div>
+
+    <div class="cfg-block">
+      <div class="cfg-label">Dock Side</div>
+      <div class="theme-row">
+        <button class="theme-pill active" id="dock-right" data-dock="right">Right</button>
+        <button class="theme-pill" id="dock-left" data-dock="left">Left</button>
+        <button class="theme-pill" id="dock-free" data-dock="free">Free</button>
+      </div>
+    </div>
+
+    <div class="cfg-block">
+      <div class="cfg-label">Refresh Interval</div>
+      <select id="cfg-refresh" class="cfg-select">
+        <option value="5">5 min</option>
+        <option value="10" selected>10 min</option>
+        <option value="15">15 min</option>
+        <option value="30">30 min</option>
+      </select>
+    </div>
+
+    <div class="cfg-block">
+      <div class="cfg-label">GitHub Token (optional)</div>
+      <input type="password" id="key-github" class="cfg-input" placeholder="ghp_…" />
+    </div>
+
+    <div class="cfg-block">
+      <div class="cfg-label">Notifications</div>
+      <div class="theme-row">
+        <button class="theme-pill active" data-notif="all">All</button>
+        <button class="theme-pill" data-notif="critical">Critical Only</button>
+        <button class="theme-pill" data-notif="off">Off</button>
+      </div>
+    </div>
+
+    <div class="cfg-block">
+      <div class="cfg-label">Active Modules</div>
+      <div class="module-toggles">
+        <label class="toggle-row"><input type="checkbox" id="mod-world" checked> World News</label>
+        <label class="toggle-row"><input type="checkbox" id="mod-india" checked> India News</label>
+        <label class="toggle-row"><input type="checkbox" id="mod-tn" checked> Tamil Nadu News</label>
+        <label class="toggle-row"><input type="checkbox" id="mod-finance" checked> Finance</label>
+        <label class="toggle-row"><input type="checkbox" id="mod-ai" checked> AI News</label>
+        <label class="toggle-row"><input type="checkbox" id="mod-weather" checked> Weather</label>
+      </div>
+    </div>
+
+    <button id="btn-save-cfg" class="save-btn">Save Settings</button>
+  </section>
+
+</div><!-- /scroll-area -->
+
+<!-- TOAST -->
+<div id="toasts"></div>
+
+<!-- NOTIFICATION PANEL -->
+<div id="notif-panel" class="notif-panel" style="display:none">
+  <div class="notif-header">
+    <span>Notifications</span>
+    <button id="notif-clear" class="notif-clear-btn">Clear</button>
+  </div>
+  <div id="notif-list"></div>
+</div>
+
+<!-- Floating orb companion -->
+<div id="orb">
+  <div class="orb-inner">⬡</div>
+  <div class="orb-ring"></div>
+</div>
+
+<script src="js/neutralino.js"></script>
+<script src="js/feeds.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
